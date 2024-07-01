@@ -5,9 +5,11 @@ Source code for 'Learning to Cartoonize Using White-Box Cartoon Representations'
 
 
 import layers
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
-import tensorflow.contrib.slim as slim
+# import tensorflow.contrib.slim as slim
+import tf_slim as slim
 
 from tqdm import tqdm
 

@@ -5,7 +5,9 @@ by Xinrui Wang and Jinze yu
 '''
 
 
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 # import tensorflow.contrib.slim as slim
 import tf_slim as slim
 
@@ -36,7 +38,7 @@ def arg_parser():
     
     return args
 
-
+drive_dir = '../drive/MyDrive/'
 
 def train(args):
     
@@ -63,7 +65,7 @@ def train(args):
                                              scale=1, patch=True, name='disc_blur')
 
 
-    vgg_model = loss.Vgg19('vgg19_no_fc.npy')
+    vgg_model = loss.Vgg19(drive_dir+'vgg19_no_fc.npy')
     vgg_photo = vgg_model.build_conv4_4(input_photo)
     vgg_output = vgg_model.build_conv4_4(output)
     vgg_superpixel = vgg_model.build_conv4_4(input_superpixel)
@@ -119,16 +121,16 @@ def train(args):
     with tf.device('/device:GPU:0'):
 
         sess.run(tf.global_variables_initializer())
-        saver.restore(sess, tf.train.latest_checkpoint('pretrain/saved_models'))
+        # saver.restore(sess, tf.train.latest_checkpoint('pretrain/saved_models'))
 
-        face_photo_dir = 'dataset/photo_face'
+        face_photo_dir = drive_dir+'dataset2/photo_face'
         face_photo_list = utils.load_image_list(face_photo_dir)
-        scenery_photo_dir = 'dataset/photo_scenery'
+        scenery_photo_dir = drive_dir+'dataset2/photo_scenery'
         scenery_photo_list = utils.load_image_list(scenery_photo_dir)
 
-        face_cartoon_dir = 'dataset/cartoon_face'
+        face_cartoon_dir = drive_dir+'dataset2/cartoon_face'
         face_cartoon_list = utils.load_image_list(face_cartoon_dir)
-        scenery_cartoon_dir = 'dataset/cartoon_scenery'
+        scenery_cartoon_dir = drive_dir+'dataset2/cartoon_scenery'
         scenery_cartoon_list = utils.load_image_list(scenery_cartoon_dir)
 
         for total_iter in tqdm(range(args.total_iter)):

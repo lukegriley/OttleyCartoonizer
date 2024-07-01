@@ -1,6 +1,6 @@
 from joblib import Parallel, delayed
 from skimage.segmentation import felzenszwalb
-# from util import oversegmentation, switch_color_space, load_strategy
+from .util import oversegmentation, switch_color_space, load_strategy
 from .structure import HierarchicalGrouping
 from itertools import product
 

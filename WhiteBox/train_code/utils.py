@@ -51,7 +51,7 @@ def label2rgb(label_field, image, kind='avg', bg_label=-1, bg_color=(0, 0, 0)):
         mask = (label_field == label).nonzero()
         #std = np.std(image[mask])
         #std_list.append(std)
-        if kind == 'avg':
+        if kind == 'avg': 
             color = image[mask].mean(axis=0)
         elif kind == 'median':
             color = np.median(image[mask], axis=0)
@@ -74,7 +74,7 @@ def color_ss_map(image, seg_num=200, power=1,
                  color_space='Lab', k=10, sim_strategy='CTSF'):
     
     img_seg = segmentation.felzenszwalb(image, scale=k, sigma=0.8, min_size=100)
-    img_cvtcolor = label2rgb(img_seg, image, kind='mix')
+    img_cvtcolor = label2rgb(img_seg, image, kind='avg')
     img_cvtcolor = switch_color_space(img_cvtcolor, color_space)
     S = HierarchicalGrouping(img_cvtcolor, img_seg, sim_strategy)
     S.build_regions()
@@ -89,7 +89,7 @@ def color_ss_map(image, seg_num=200, power=1,
         S.remove_similarities(i,j)
         S.calculate_similarity_for_new_region()
     
-    image = label2rgb(S.img_seg, image, kind='mix')
+    image = label2rgb(S.img_seg, image, kind='avg')
     image = (image+1)/2
     image = image**power
     image = image/np.max(image)
@@ -111,7 +111,7 @@ def simple_superpixel(batch_image, seg_num=200):
     def process_slic(image):
         seg_label = segmentation.slic(image, n_segments=seg_num, sigma=1,
                                         compactness=10, convert2lab=True)
-        image = color.label2rgb(seg_label, image, kind='mix')
+        image = color.label2rgb(seg_label, image, kind='avg')
         return image
     
     num_job = np.shape(batch_image)[0]
