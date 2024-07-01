@@ -41,7 +41,7 @@ def extract_panels_from_image(image_path):
     for contour in filtered_contours:
         x, y, w, h = cv2.boundingRect(contour)
         panel = image[y:y+h, x:x+w]
-        panel_path = f'outputs/'+os.path.basename(image_path)+'panel_'+str(panel_number)+'.jpg'
+        panel_path = f'scenery/ExMachina/'+os.path.basename(image_path)+'panel_'+str(panel_number)+'.jpg'
         cv2.imwrite(panel_path, panel)
         panel_number += 1
 
@@ -53,6 +53,4 @@ def process_folder(folder_path):
         image_path = os.path.join(folder_path, image_file)
         extract_panels_from_image(image_path)
 
-process_folder('data/vol1')
-process_folder('data/vol2')
-process_folder('data/vol3')
+process_folder('Panels/ExMachina')
